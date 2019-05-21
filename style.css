@@ -1,0 +1,24 @@
+.wallpaper-login{
+
+    background-image: url('images/login-image2.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 560px;
+    margin-top: 0;
+    
+
+}
+
+.wall {
+    border-left: solid 6px #f4623a;
+}
+
+.form-control{
+    margin-top: 20px;
+    
+}
+
+.btn-s{
+    border-radius: 50px;
+    padding: 12px 24px;
+}
