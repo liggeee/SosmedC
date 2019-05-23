@@ -186,11 +186,10 @@ function registrasi($data){
     
     //tambahkan data baru ke database
     
-    mysqli_query($conn,"
-    INSERT INTO user VALUES
-    ('','$nama','$username','$password','$email','Halo Saya sekarang menggunakan SosmedC :) ','gender','default.png','default.jpg','$birthday',NOW(),'$status','$posts','rotio'");
+    $insert = "INSERT INTO users VALUES
+    ('','$nama','$username','$password','$email','Halo Saya sekarang menggunakan SosmedC :) ','...','$gender','default.png','default.jpg','$birthday',NOW(),'$status','$posts','rotio')";
+
+    mysqli_query($conn,$insert);
     
     return mysqli_affected_rows($conn);
 }
-
-?>

@@ -1,3 +1,25 @@
+<?php
+require 'functions/functions.php';
+session_start();
+// if(isset($_SESSION["login"])){
+//     header("Location: index.php");
+//     exit;
+// }
+if(isset($_POST["signup"])){
+    if(registrasi($_POST) > 0){
+        echo "
+            <script>
+                alert('user baru berhasil ditambahkan');
+                header('Location: index.php');
+            </script>
+        ";
+    } 
+    else {
+        echo mysqli_error($conn);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,7 +77,7 @@
             <div class="row justify-content-center h-80 ">
 
                 <div class="col-lg-10 align-self-end h-80 wall">
-                    <form action="insert_user.php" method="post" >
+                    <form action="" method="post" >
                         <div class="form-group text-uppercase text-white font-weight-bold">
                             <h3 class="align-items-center text-uppercase text-white font-weight-bold">Sign Up</h3>
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama">
@@ -66,13 +88,13 @@
                                 <option value="male">Laki-laki</option>
                                 <option value="female">Perempuan</option>
                             </select>
-                            <input type="email" class="form-control" id="email" placeholder="Masukkan email">
-                            <input type="password" class="form-control" id="password" placeholder="Masukkan Password">
-                            <input type="password2" class="form-control" id="password2" placeholder="Konfirmasi Password">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan email">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan Password">
+                            <input type="password" class="form-control" id="password2" name="password2" placeholder="Konfirmasi Password">
                             <input type="date" class="form-control" id="date" name="date">
 
                         </div>
-                        <button type="submit" class="btn btn-primary btn-s">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-s" name="signup" >Sing Up </button>
                     </form>
 
                 </div>
