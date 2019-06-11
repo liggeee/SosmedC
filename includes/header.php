@@ -1,5 +1,6 @@
 <?php
 include 'connections.php';
+include 'functions/functions.php';
 ?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -10,7 +11,7 @@ include 'connections.php';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="home.php">Coding Cafe</a>
+            <a class="navbar-brand" href="home.php">SosmedC</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
