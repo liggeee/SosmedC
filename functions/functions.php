@@ -391,3 +391,53 @@ function registrasi($data){
     
     return mysqli_affected_rows($conn);
 }
+
+function search_user() {
+	global $conn;
+
+	if	(isset($_GET['search_user_btn'])) {
+		$search_query = htmlentities($_GET['search_user']);
+		$get_user = "select * form users where nama like '%$search_query%' "; 
+		
+	}
+	else {
+		$get_user = "SELECT * FROM users";
+	}
+
+	$run_user = mysqli_query($conn,$get_user);
+
+	while ($row_user = mysqli_fetch_assoc($run_user)) {
+		
+		$username = $row_user['username'];
+		$user_id = $row_user['user_id'];
+		$name = $row_user['nama'];
+		$user_image = $row_user['user_image'];
+
+
+		echo "
+		<div class='row'>
+			<div class='col-sm-3'>
+			</div>
+			<div class='col-sm-6'>
+				<div class='row' id='find_pople'>
+					<div class='col-sm-4'>
+					<a href='user_profile.php?u_id=$user_id'>
+					<img src='users/$user_image' width='150px' heigth ='140px' 
+					title='$username' style='float : left; ,margin  1px;'>
+					</a>
+					</div><br><br>
+					<div class='col-sm-6'>
+					<a style='text-decoration:none; cursor:pointer;color#3897f0;' href='user_profile.php?u_id=$user_id '>
+					<strong><h2>$name</h2></strong>
+					</a>
+					</div>
+					<div class='col-sm-3'></div>
+				</div>
+			</div>
+			<div class='col-sm-4'>
+			</div>
+		</div><br>
+		";
+
+	}
+}

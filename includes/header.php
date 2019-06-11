@@ -47,7 +47,7 @@ include 'functions/functions.php';
                 <li><a href='profile.php?<?php echo "u_id=$userid" ?>'><?php echo "$name"; ?></a></li>
                 <li><a href="home.php">Home</a></li>
                 <li><a href="members.php">Find People</a></li>
-                <li><a href="messages.php?u_id=new">Messages</a></li>
+                
 
 
                 <?php
@@ -56,9 +56,7 @@ include 'functions/functions.php';
 						<li class='dropdown'>
 							<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'><span><i class='glyphicon glyphicon-chevron-down'></i></span></a>
 							<ul class='dropdown-menu'>
-								<li>
-									<a href='my_post.php?u_id=$userid'>My Posts <span class='badge badge-secondary'>$posts</span></a>
-								</li>
+								
 								<li>
 									<a href='edit_profile.php?u_id=$userid'>Edit Account</a>
 								</li>
