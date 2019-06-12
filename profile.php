@@ -232,7 +232,7 @@ if (!isset($_SESSION['username'])) {
 							<img id='posts-img' src='imageposts/$upload_image' style='height:350px;'>
 						</div>
 					</div><br>
-					<a href='single.php?post_id=$post_id' style='float:right;'><button class='btn btn-info'>Comment</button></a><br>
+					
 				</div>
 				
 			</div><br><br>
@@ -259,7 +259,7 @@ if (!isset($_SESSION['username'])) {
 							<img id='posts-img' src='imageposts/$upload_image' style='height:350px;'>
 						</div>
 					</div><br>
-					<a href='single.php?post_id=$post_id' style='float:right;'><button class='btn btn-info'>Comment</button></a><br>
+					
 				</div>
 				<div class='col-sm-3'>
 				</div>
@@ -286,7 +286,7 @@ if (!isset($_SESSION['username'])) {
 							<h3><p>$content</p></h3>
 						</div>
 					</div><br>
-					<a href='single.php?post_id=$post_id' style='float:right;'><button class='btn btn-info'>Comment</button></a><br>
+					
 				</div>
 				
 			</div><br><br>

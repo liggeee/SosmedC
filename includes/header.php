@@ -38,7 +38,7 @@ include 'functions/functions.php';
                 $posts = $row['posts'];
                 $regdate = $row['user_reg_date'];
                 $recover = $row['recover_account'];
-
+                $password = $row['password'];
                 $user_posts = "SELECT * FROM posts where user_id='$userid'";
                 $run_posts = mysqli_query($conn, $user_posts);
                 $posts = mysqli_num_rows($run_posts);
@@ -68,16 +68,6 @@ include 'functions/functions.php';
 						</li>
 						";
                 ?>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <form class="navbar-form navbar-left" method="get" action="results.php">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="user_query" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-info" name="search">Search</button>
-                    </form>
-                </li>
             </ul>
         </div>
     </div>

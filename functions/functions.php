@@ -2,22 +2,23 @@
 
 //koneksi ke database     
 
-$conn = mysqli_connect("localhost","root","","sosmedc");
+$conn = mysqli_connect("localhost", "root", "", "sosmedc");
 
-function query($query){
-    global $conn;
-    $result = mysqli_query($conn,$query);
-    $rows = [];
-    while( $row = mysqli_fetch_assoc($result)){
-        $rows[] = $row;
-        
-    }
-    return $rows;
+function query($query)
+{
+	global $conn;
+	$result = mysqli_query($conn, $query);
+	$rows = [];
+	while ($row = mysqli_fetch_assoc($result)) {
+		$rows[] = $row;
+	}
+	return $rows;
 }
 
 
-function insertPost(){
-	if(isset($_POST['sub'])){
+function insertPost()
+{
+	if (isset($_POST['sub'])) {
 		global $conn;
 		global $userid;
 
@@ -25,18 +26,18 @@ function insertPost(){
 		$upload_image = $_FILES['upload_image']['name'];
 		$image_tmp = $_FILES['upload_image']['tmp_name'];
 		$random_number = rand(1, 100);
-		if(strlen($content) > 250){
+		if (strlen($content) > 250) {
 			echo "<script>alert('Please Use 250 or less than 250 words!')</script>";
 			echo "<script>window.open('home.php', '_self')</script>";
-		}else{
-			if(strlen($upload_image) >= 1 && strlen($content) >= 1){
+		} else {
+			if (strlen($upload_image) >= 1 && strlen($content) >= 1) {
 
 				move_uploaded_file($image_tmp, "imageposts/$upload_image.$random_number");
 				$insert = "insert into posts (user_id, post_content, upload_image, post_date) values('$userid', '$content', '$upload_image.$random_number', NOW())";
 
 				$run = mysqli_query($conn, $insert);
 
-				if($run){
+				if ($run) {
 					echo "<script>alert('Your Post updated a moment ago!')</script>";
 					echo "<script>window.open('home.php', '_self')</script>";
 
@@ -45,18 +46,18 @@ function insertPost(){
 				}
 
 				exit();
-			}else{
-				if($upload_image=='' && $content == ''){
+			} else {
+				if ($upload_image == '' && $content == '') {
 					echo "<script>alert('Error Occured while uploading!')</script>";
 					echo "<script>window.open('home.php', '_self')</script>";
-				}else{
-					if($content==''){
-                        
+				} else {
+					if ($content == '') {
+
 						move_uploaded_file($image_tmp, "imageposts/$upload_image.$random_number");
 						$insert = "insert into posts (user_id,post_content,upload_image,post_date) values ('$userid','No','$upload_image.$random_number',NOW())";
 						$run = mysqli_query($conn, $insert);
 
-						if($run){
+						if ($run) {
 							echo "<script>alert('Your Post updated a moment ago!')</script>";
 							echo "<script>window.open('home.php', '_self')</script>";
 
@@ -65,13 +66,13 @@ function insertPost(){
 						}
 
 						exit();
-					}else{
-                        
-                        
+					} else {
+
+
 						$insert = "insert into posts (user_id, post_content, post_date) values('$userid', '$content', NOW())";
 						$run = mysqli_query($conn, $insert);
 
-						if($run){
+						if ($run) {
 							echo "<script>alert('Your Post updated a moment ago!')</script>";
 							echo "<script>window.open('home.php', '_self')</script>";
 
@@ -85,32 +86,33 @@ function insertPost(){
 	}
 }
 
-function get_posts(){
+function get_posts()
+{
 	global $conn;
 	$per_page = 4;
 
-	if(isset($_GET['page'])){
+	if (isset($_GET['page'])) {
 		$page = $_GET['page'];
-	}else{
-		$page=1;
+	} else {
+		$page = 1;
 	}
 
-	$start_from = ($page-1) * $per_page;
+	$start_from = ($page - 1) * $per_page;
 
 	$get_posts = "select * from posts ORDER by 1 DESC LIMIT $start_from, $per_page";
 
 	$run_posts = mysqli_query($conn, $get_posts);
 
-	while($row_posts = mysqli_fetch_array($run_posts)){
+	while ($row_posts = mysqli_fetch_array($run_posts)) {
 
 		$post_id = $row_posts['posts_id'];
 		$user_id = $row_posts['user_id'];
-		$content = substr($row_posts['post_content'], 0,40);
+		$content = substr($row_posts['post_content'], 0, 40);
 		$upload_image = $row_posts['upload_image'];
 		$post_date = $row_posts['post_date'];
 
 		$user = "select *from users where user_id='$user_id' AND posts='yes'";
-		$run_user = mysqli_query($conn,$user);
+		$run_user = mysqli_query($conn, $user);
 		$row_user = mysqli_fetch_array($run_user);
 
 		$user_name = $row_user['username'];
@@ -118,8 +120,8 @@ function get_posts(){
 
 		//now displaying posts from database
 
-		if($content=="No" && strlen($upload_image) >= 1){
-			echo"
+		if ($content == "No" && strlen($upload_image) >= 1) {
+			echo "
 			<div class='row'>
 				<div class='col-sm-3'>
 				</div>
@@ -146,10 +148,8 @@ function get_posts(){
 				</div>
 			</div><br><br>
 			";
-		}
-
-		else if(strlen($content) >= 1 && strlen($upload_image) >= 1){
-			echo"
+		} else if (strlen($content) >= 1 && strlen($upload_image) >= 1) {
+			echo "
 			<div class='row'>
 				<div class='col-sm-3'>
 				</div>
@@ -177,10 +177,8 @@ function get_posts(){
 				</div>
 			</div><br><br>
 			";
-		}
-
-		else{
-			echo"
+		} else {
+			echo "
 			<div class='row'>
 				<div class='col-sm-3'>
 				</div>
@@ -213,201 +211,195 @@ function get_posts(){
 	include("pagination.php");
 }
 
-function tambah($data){
-    global $conn;
-    
-    $nohp = htmlspecialchars($data["nohp"]);
-    $nama = htmlspecialchars($data["nama"]);
-    $email = htmlspecialchars($data["email"]);
-    $jurusan = htmlspecialchars($data["jurusan"]);
-    //upload gambar
-    $gambar = upload();
-    
-    if(!$gambar){
-        return false;
-    }
-    $query = "INSERT INTO mahasiswaa 
+function tambah($data)
+{
+	global $conn;
+
+	$nohp = htmlspecialchars($data["nohp"]);
+	$nama = htmlspecialchars($data["nama"]);
+	$email = htmlspecialchars($data["email"]);
+	$jurusan = htmlspecialchars($data["jurusan"]);
+	//upload gambar
+	$gambar = upload();
+
+	if (!$gambar) {
+		return false;
+	}
+	$query = "INSERT INTO mahasiswaa 
                 VALUES
             ('','$nim','$nama','$email','$jurusan','$gambar')
             ";
-    mysqli_query($conn,$query);
-    
-    return mysqli_affected_rows($conn);
+	mysqli_query($conn, $query);
 
-    }
+	return mysqli_affected_rows($conn);
+}
 
-function upload(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-    
-    if($error === 4){
-        echo "
+function upload()
+{
+	$namaFile = $_FILES['gambar']['name'];
+	$ukuranFile = $_FILES['gambar']['size'];
+	$error = $_FILES['gambar']['error'];
+	$tmpName = $_FILES['gambar']['tmp_name'];
+
+	if ($error === 4) {
+		echo "
            <script>
                 alert('pilih gambar terlebih dahulu');
             </script> 
         ";
-        return false;
-    }
-    
-    //cek ekxtensi file
-    $ekstensiGambarValid = ['jpg','jpeg','png'];
-    $ekstensiGambar = explode('.',$namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
-    
-    if (!in_array($ekstensiGambar,$ekstensiGambarValid)){
-        echo "
+		return false;
+	}
+
+	//cek ekxtensi file
+	$ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
+	$ekstensiGambar = explode('.', $namaFile);
+	$ekstensiGambar = strtolower(end($ekstensiGambar));
+
+	if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+		echo "
            <script>
                 alert('yang diupload bukan gambar');
             </script> 
         ";
-        return false;
-    }
-    
-    if ($ukuranFile > 1000000){
-        echo "
+		return false;
+	}
+
+	if ($ukuranFile > 1000000) {
+		echo "
            <script>
                 alert('ukuran gambar terlalu besar');
             </script> 
         ";
-        return false;
-    }
-    //generate nama gambar baru
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= '$ekstensiGambar';
-    move_uploaded_file($tmpName,'img/'. $namaFile);
-    
-    return $namaFile;
+		return false;
+	}
+	//generate nama gambar baru
+	$namaFileBaru = uniqid();
+	$namaFileBaru .= '.';
+	$namaFileBaru .= '$ekstensiGambar';
+	move_uploaded_file($tmpName, 'img/' . $namaFile);
+
+	return $namaFile;
 }
 
-function hapus($id){
-    global $conn;
-    $query = "DELETE FROM mahasiswaa WHERE id = $id";
-    mysqli_query($conn,$query);
-    return mysqli_affected_rows($conn);
+function hapus($id)
+{
+	global $conn;
+	$query = "DELETE FROM mahasiswaa WHERE id = $id";
+	mysqli_query($conn, $query);
+	return mysqli_affected_rows($conn);
 }
 
-function ubah($data){
-    global $conn;
-    
-    $nim = htmlspecialchars($data["nim"]);
-    $nama = htmlspecialchars($data["nama"]);
-    $email = htmlspecialchars($data["email"]);
-    $jurusan = htmlspecialchars($data["jurusan"]);
-    $gambarLama = htmlspecialchars($data["gambarLama"]);
-    
-    if ($_FILES['gambar']['error']===4){
-        $gambar = $gambarLama;
-    }
-    else {
-        $gambar = upload();
-    }   
-    $id = $data["id"];
-    
-    $query = "UPDATE mahasiswaa SET
-            nim='$nim',
-            nama='$nama',
-            email='$email',
-            jurursan='$jurusan',
-            gambar='$gambar'
-            
-            WHERE id = $id
-            
-            ";
-    mysqli_query($conn,$query);
-    
-    return mysqli_affected_rows($conn);
+function ubah($data)
+{
+	global $conn;
 
+	$nama = $data['name'];
+	$email = $data['email'];
+	$biodata = $data['biodata'];
+	$username = $data['username'];
+	$relationship = $data['relationship'];
+
+
+	$query = "UPDATE users SET
+        nama='$nama',
+        username='$username',
+        email='$email',
+        biodata='$biodata',
+        relationship='$relationship'
+        WHERE username = '$username'
+        ";
+	mysqli_query($conn, $query);
+
+	return mysqli_affected_rows($conn);
 }
 
-function cari($search){
-    $query = "
+function cari($search)
+{
+	$query = "
         SELECT * FROM mahasiswaa WHERE
         nama like '%$search%' OR
         nim like '%$search%' OR
         jurursan like '%$search%'
         
     ";
-        return query($query);
+	return query($query);
 }
 
-function registrasi($data){
-    global $conn;
-    
-    $nama = htmlentities(mysqli_real_escape_string($conn,$data["nama"]));
-    $username = strtolower(stripslashes($data["username"]));
-    $email = htmlentities(mysqli_real_escape_string($conn,$data["email"]));
-    $gender = htmlentities(mysqli_real_escape_string($conn,$data["gender"]));
-    $birthday = htmlentities(mysqli_real_escape_string($conn,$data["date"]));
-    $status = "verified";
-    $posts = "no";
-    $check_username_query = "select username from users where username='$username'";
-    $run_username = mysqli_query($conn, $check_username_query);
-    
-    
-    $password = htmlentities(mysqli_real_escape_string($conn,$data["password"]));
-    $password2 = htmlentities(mysqli_real_escape_string($conn,$data["password2"]));
+function registrasi($data)
+{
+	global $conn;
 
-    
-    
-    if (!$username && !$password && !$password2 ){
-        echo"
+	$nama = htmlentities(mysqli_real_escape_string($conn, $data["nama"]));
+	$username = strtolower(stripslashes($data["username"]));
+	$email = htmlentities(mysqli_real_escape_string($conn, $data["email"]));
+	$gender = htmlentities(mysqli_real_escape_string($conn, $data["gender"]));
+	$birthday = htmlentities(mysqli_real_escape_string($conn, $data["date"]));
+	$status = "verified";
+	$posts = "no";
+	$check_username_query = "select username from users where username='$username'";
+	$run_username = mysqli_query($conn, $check_username_query);
+
+
+	$password = htmlentities(mysqli_real_escape_string($conn, $data["password"]));
+	$password2 = htmlentities(mysqli_real_escape_string($conn, $data["password2"]));
+
+
+
+	if (!$username && !$password && !$password2) {
+		echo "
             <script>
                 alert('HARAP ISI USERNAME DAN PASSWORD !!');
             </script>
         ";
-        return false;
-    }
-    
-    if(mysqli_fetch_assoc($run_username)){
-        echo"
+		return false;
+	}
+
+	if (mysqli_fetch_assoc($run_username)) {
+		echo "
             <script>
                 alert('username yang dipilih telah terdaftar!');
             </script>
         ";
-        
-        return false;
-    }
-    
-    if($password != $password2){
-        echo"
+
+		return false;
+	}
+
+	if ($password != $password2) {
+		echo "
             <script>
                 alert('password tidak sama');
             </script>
         ";
-    return false;
-    }
-    
-    $password  = password_hash($password, PASSWORD_DEFAULT);
-    
-    //tambahkan data baru ke database
-    
-    $insert = "INSERT INTO users VALUES
+		return false;
+	}
+
+	$password  = password_hash($password, PASSWORD_DEFAULT);
+
+	//tambahkan data baru ke database
+
+	$insert = "INSERT INTO users VALUES
     ('','$nama','$username','$password','$email','Halo Saya sekarang menggunakan SosmedC :) ','...','$gender','default.png','default.jpg','$birthday',NOW(),'$status','$posts','rotio')";
 
-    mysqli_query($conn,$insert);
-    
-    return mysqli_affected_rows($conn);
+	mysqli_query($conn, $insert);
+
+	return mysqli_affected_rows($conn);
 }
 
-function search_user() {
+function search_user()
+{
 	global $conn;
 
-	if	(isset($_GET['search_user_btn'])) {
+	if (isset($_GET['search_user_btn'])) {
 		$search_query = htmlentities($_GET['search_friend']);
-		$get_user = "select * from users where nama like '%$search_query%'  or username like '%$search_query%' "; 
-		
-	}
-	else {
+		$get_user = "select * from users where nama like '%$search_query%'  or username like '%$search_query%' ";
+	} else {
 		$get_user = "select * from users";
 	}
 
 	$run_user = mysqli_query($conn, $get_user);
 
 	while ($row_user = mysqli_fetch_array($run_user)) {
-		
+
 		$username = $row_user['username'];
 		$user_id = $row_user['user_id'];
 		$name = $row_user['nama'];
@@ -438,6 +430,5 @@ function search_user() {
 			</div>
 		</div><br>
 		";
-
 	}
 }
