@@ -51,10 +51,10 @@ $user = $_SESSION['username'];
 
                 <div class="col-sm-4">
                     <form class="search_form" action="" method="get">
-                        <input type="text" placeholder="Search Friend" name="search_user">
+                        <input type="text" placeholder="Search User" name="search_friend">
                         <button class="btn btn-info" type="submit" name="search_user_btn">Search</button>
                     </form>
-
+                    
                 </div>
 
                 <div class="col-sm-4">

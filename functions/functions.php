@@ -140,7 +140,7 @@ function get_posts(){
 							<img id='posts-img' src='imageposts/$upload_image' style='height:350px;'>
 						</div>
 					</div><br>
-					<a href='single.php?post_id=$post_id' style='float:right;'><button class='btn btn-info'>Comment</button></a><br>
+					<br>
 				</div>
 				<div class='col-sm-3'>
 				</div>
@@ -171,7 +171,7 @@ function get_posts(){
 							<img id='posts-img' src='imageposts/$upload_image' style='height:350px;'>
 						</div>
 					</div><br>
-					<a href='single.php?post_id=$post_id' style='float:right;'><button class='btn btn-info'>Comment</button></a><br>
+					<br>
 				</div>
 				<div class='col-sm-3'>
 				</div>
@@ -201,7 +201,7 @@ function get_posts(){
 							<h3><p>$content</p></h3>
 						</div>
 					</div><br>
-					<a href='single.php?post_id=$post_id' style='float:right;'><button class='btn btn-info'>Comment</button></a><br>
+					<br>
 				</div>
 				<div class='col-sm-3'>
 				</div>
@@ -396,17 +396,17 @@ function search_user() {
 	global $conn;
 
 	if	(isset($_GET['search_user_btn'])) {
-		$search_query = htmlentities($_GET['search_user']);
-		$get_user = "select * form users where nama like '%$search_query%' "; 
+		$search_query = htmlentities($_GET['search_friend']);
+		$get_user = "select * from users where nama like '%$search_query%'  or username like '%$search_query%' "; 
 		
 	}
 	else {
-		$get_user = "SELECT * FROM users";
+		$get_user = "select * from users";
 	}
 
-	$run_user = mysqli_query($conn,$get_user);
+	$run_user = mysqli_query($conn, $get_user);
 
-	while ($row_user = mysqli_fetch_assoc($run_user)) {
+	while ($row_user = mysqli_fetch_array($run_user)) {
 		
 		$username = $row_user['username'];
 		$user_id = $row_user['user_id'];
